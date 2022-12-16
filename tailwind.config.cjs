@@ -6,6 +6,8 @@ module.exports = {
       sans: ["Roboto", "sans-serif"],
     },
     colors: {
+      white: "#fff",
+
       "gray-100": "#e1e1e6",
       "gray-300": "#c4c4cc",
       "gray-400": "#8d8d99",
