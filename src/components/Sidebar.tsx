@@ -8,7 +8,8 @@ export function Sidebar() {
         src={coverProfile}
         className="w-full h-24 object-cover object-center"
       />
-      <div className="flex flex-col items-center text-gray-300 -mt-8">
+
+      <div className="flex flex-col items-center -mt-8">
         <img
           src="https://github.com/devsantosbruno.png"
           className="w-20 h-20 rounded-lg border-4 border-gray-800 outline outline-2 outline-green-500"

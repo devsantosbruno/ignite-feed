@@ -4,14 +4,16 @@ import { Sidebar } from "./components/Sidebar";
 
 export function App() {
   return (
-    <div>
+    <div className="bg-gray-900 text-gray-300">
       <Header />
-      <div className="max-w-6xl my-8 mx-auto px-4 grid grid-cols-4 gap-8 items-start">
+      <div className="max-w-6xl py-8 mx-auto px-4 grid grid-cols-4 gap-8 items-start">
         <Sidebar />
 
         <main className="col-span-3">
-          <Post />
-          <Post />
+          <div className="flex flex-col gap-8">
+            <Post />
+            <Post />
+          </div>
         </main>
       </div>
     </div>
