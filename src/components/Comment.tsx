@@ -1,7 +1,7 @@
 import { ThumbsUp, Trash } from "phosphor-react";
 import { Avatar } from "./Avatar";
 
-export function Comment() {
+export function Comment(props: any) {
   return (
     <div className="mt-6 flex gap-4">
       <Avatar githubUser="devsantosbruno" size={16} />
@@ -28,7 +28,7 @@ export function Comment() {
             </button>
           </header>
 
-          <p className="mt-4">Muito bom Devon, parabéns!! 👏👏</p>
+          <p className="mt-4">{props.content}</p>
         </div>
 
         <footer className="mt-4">

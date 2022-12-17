@@ -1,78 +1,111 @@
+import { format, formatDistanceToNow } from "date-fns";
+import ptBR from "date-fns/locale/pt-BR";
 import { useState } from "react";
 import { Avatar } from "./Avatar";
 import { Comment } from "./Comment";
 
-export function Post(props: any) {
+interface PostProps {
+  publishedAt: Date;
+  authorAvatar: string;
+  authorName: string;
+  authorRole: string;
+  content: object[];
+}
+
+interface LineProps {
+  type?: string;
+  content?: string;
+}
+
+export function Post(props: PostProps) {
   const [quantity, setQuantity] = useState(0);
+  const [comments, setComments] = useState(["Post muito bacana, hein?!"]);
+  const [newCommentText, setNewCommentText] = useState("");
+
+  const publishedDateFormatted = format(
+    props.publishedAt,
+    "dd 'de' LLLL 'às' HH:mm'h'",
+    { locale: ptBR }
+  );
+
+  const publishedDateRelativeToNow = formatDistanceToNow(props.publishedAt, {
+    locale: ptBR,
+    addSuffix: true,
+  });
+
+  function handleCreateNewComment(event: any) {
+    event.preventDefault();
+
+    setComments([...comments, newCommentText]);
+    setNewCommentText("");
+  }
+
+  function handleNewCommentChange(event: any) {
+    setNewCommentText(event?.target.value);
+  }
 
   return (
     <article className="bg-gray-800 rounded-lg p-5 md:p-10">
       <header className="sm:flex items-center justify-between">
         <div className="flex items-center gap-4 mb-1 sm:mb-0">
-          <Avatar githubUser="devsantosbruno" size={16} hasOutline />
+          <Avatar githubUser={props.authorAvatar} size={16} hasOutline />
 
           <div className="flex flex-col">
-            <strong className="text-gray-100 leading-6">Bruno Santos</strong>
+            <strong className="text-gray-100 leading-6">
+              {props.authorName}
+            </strong>
             <span className="text-sm text-gray-400 leading-6">
-              Web Developer
+              {props.authorRole}
             </span>
           </div>
         </div>
 
         <div className="text-end">
           <time
-            title="11 de Maio às 08:13h"
-            dateTime="2022-06-11 08:13:30"
+            title={publishedDateFormatted}
+            dateTime={props.publishedAt.toISOString()}
             className="text-sm text-grey-400"
           >
-            Públicado há 1h
+            {publishedDateRelativeToNow}
           </time>
         </div>
       </header>
 
       <div className="leading-6 mt-6 flex flex-col gap-4">
-        <p>Fala galeraa 👋</p>
-        <p>
-          Acabei de subir mais um projeto no meu portifa. É um projeto que fiz
-          no NLW Return, evento da Rocketseat. O nome do projeto é DoctorCare 🚀
-        </p>
-        <p>
-          👉{" "}
-          <a
-            href="#"
-            className="font-bold text-green-500 hover:text-green-300 transition duration-150"
-          >
-            jane.design/doctorcare
-          </a>
-        </p>
-        <p>
-          <a
-            href="#"
-            className="font-bold text-green-500 hover:text-green-300 transition duration-150"
-          >
-            #novoprojeto
-          </a>{" "}
-          <a
-            href="#"
-            className="font-bold text-green-500 hover:text-green-300 transition duration-150"
-          >
-            #nlw
-          </a>{" "}
-          <a
-            href="#"
-            className="font-bold text-green-500 hover:text-green-300 transition duration-150"
-          >
-            #rocketseat
-          </a>
-        </p>
+        {props.content.map((line: LineProps) => {
+          if (line.type === "paragraph") {
+            return <p key={line.content}>{line.content}</p>;
+          } else if (line.type === "link") {
+            return (
+              <p key={line.content}>
+                <a
+                  href="#"
+                  className="font-bold text-green-500 hover:text-green-300 transition duration-150"
+                >
+                  {line.content}
+                </a>
+              </p>
+            );
+          }
+        })}
       </div>
 
-      <form className="w-full mt-6 pt-6 border-t-[1px] border-gray-600">
+      <form
+        onSubmit={(event) => {
+          handleCreateNewComment(event);
+        }}
+        className="w-full mt-6 pt-6 border-t-[1px] border-gray-600"
+      >
         <strong className="leading-6 text-gray-100">Deixe seu feedback</strong>
 
         <textarea
           placeholder="Deixe um comentário"
-          onChange={(event) => setQuantity(event.target.value.length)}
+          name="comment"
+          onChange={(event) => {
+            setQuantity(event.target.value.length);
+            handleNewCommentChange(event);
+          }}
+          value={newCommentText}
           className="w-full bg-gray-900 border-none resize-none h-24 p-4 rounded-lg text-gray-100 leading-6 mt-4 focus:outline-none focus:outline focus:outline-2 focus:outline-green-500"
         />
 
@@ -87,8 +120,9 @@ export function Post(props: any) {
       </form>
 
       <div className="mt-8">
-        <Comment />
-        <Comment />
+        {comments.map((comment) => {
+          return <Comment content={comment} key={comment} />;
+        })}
       </div>
     </article>
   );
