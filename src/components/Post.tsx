@@ -1,17 +1,16 @@
 import { useState } from "react";
+import { Avatar } from "./Avatar";
 import { Comment } from "./Comment";
 
 export function Post(props: any) {
   const [quantity, setQuantity] = useState(0);
 
   return (
-    <article className="bg-gray-800 rounded-lg p-10">
-      <header className="flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <img
-            src="https://github.com/devsantosbruno.png"
-            className="w-16 h-16 rounded-lg border-4 border-gray-800 outline outline-2 outline-green-500"
-          />
+    <article className="bg-gray-800 rounded-lg p-5 md:p-10">
+      <header className="sm:flex items-center justify-between">
+        <div className="flex items-center gap-4 mb-1 sm:mb-0">
+          <Avatar githubUser="devsantosbruno" size={16} hasOutline />
+
           <div className="flex flex-col">
             <strong className="text-gray-100 leading-6">Bruno Santos</strong>
             <span className="text-sm text-gray-400 leading-6">
@@ -20,13 +19,15 @@ export function Post(props: any) {
           </div>
         </div>
 
-        <time
-          title="11 de Maio às 08:13h"
-          dateTime="2022-06-11 08:13:30"
-          className="text-sm text-grey-400"
-        >
-          Públicado há 1h
-        </time>
+        <div className="text-end">
+          <time
+            title="11 de Maio às 08:13h"
+            dateTime="2022-06-11 08:13:30"
+            className="text-sm text-grey-400"
+          >
+            Públicado há 1h
+          </time>
+        </div>
       </header>
 
       <div className="leading-6 mt-6 flex flex-col gap-4">
@@ -86,6 +87,7 @@ export function Post(props: any) {
       </form>
 
       <div className="mt-8">
+        <Comment />
         <Comment />
       </div>
     </article>
