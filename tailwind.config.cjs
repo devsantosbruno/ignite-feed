@@ -18,6 +18,8 @@ module.exports = {
 
       "green-300": "#00B37E",
       "green-500": "#00875f",
+
+      "red-500": "#F75A68",
     },
     extend: {},
   },
