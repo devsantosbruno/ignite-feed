@@ -33,6 +33,10 @@ export function Post(props: PostProps) {
     addSuffix: true,
   });
 
+  function handleNewcommentInvalid(event: any) {
+    event.target.setCustomValidity("Esse campo eh obrigatorio");
+  }
+
   function handleCreateNewComment(event: any) {
     event.preventDefault();
 
@@ -41,7 +45,17 @@ export function Post(props: PostProps) {
   }
 
   function handleNewCommentChange(event: any) {
+    event.target.setCustomValidity("");
+
     setNewCommentText(event?.target.value);
+  }
+
+  function deleteComment(commentToDelete: any) {
+    const commentsWithoutDeletedOne = comments.filter((comment) => {
+      return comment !== commentToDelete;
+    });
+
+    setComments(commentsWithoutDeletedOne);
   }
 
   return (
@@ -106,6 +120,8 @@ export function Post(props: PostProps) {
             handleNewCommentChange(event);
           }}
           value={newCommentText}
+          required
+          onInvalid={() => handleNewcommentInvalid(event)}
           className="w-full bg-gray-900 border-none resize-none h-24 p-4 rounded-lg text-gray-100 leading-6 mt-4 focus:outline-none focus:outline focus:outline-2 focus:outline-green-500"
         />
 
@@ -121,7 +137,13 @@ export function Post(props: PostProps) {
 
       <div className="mt-8">
         {comments.map((comment) => {
-          return <Comment content={comment} key={comment} />;
+          return (
+            <Comment
+              content={comment}
+              key={comment}
+              onDeleteComment={deleteComment}
+            />
+          );
         })}
       </div>
     </article>

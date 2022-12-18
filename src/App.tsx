@@ -45,6 +45,7 @@ export function App() {
   return (
     <div className="bg-gray-900 text-gray-300">
       <Header />
+
       <div className="max-w-6xl py-8 mx-auto px-4 grid md:grid-cols-3 lg:grid-cols-4 gap-8 items-start">
         <Sidebar />
 
