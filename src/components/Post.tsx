@@ -1,6 +1,6 @@
 import { format, formatDistanceToNow } from "date-fns";
 import ptBR from "date-fns/locale/pt-BR";
-import { useState } from "react";
+import { ChangeEvent, FormEvent, InvalidEvent, useState } from "react";
 import { Avatar } from "./Avatar";
 import { Comment } from "./Comment";
 
@@ -9,11 +9,11 @@ interface PostProps {
   authorAvatar: string;
   authorName: string;
   authorRole: string;
-  content: object[];
+  content: LineProps[];
 }
 
 interface LineProps {
-  type?: string;
+  type?: "paragraph" | "link";
   content?: string;
 }
 
@@ -33,24 +33,24 @@ export function Post(props: PostProps) {
     addSuffix: true,
   });
 
-  function handleNewcommentInvalid(event: any) {
-    event.target.setCustomValidity("Esse campo eh obrigatorio");
-  }
-
-  function handleCreateNewComment(event: any) {
+  function handleCreateNewComment(event: FormEvent) {
     event.preventDefault();
 
     setComments([...comments, newCommentText]);
     setNewCommentText("");
   }
 
-  function handleNewCommentChange(event: any) {
+  function handleNewCommentChange(event: ChangeEvent<HTMLTextAreaElement>) {
     event.target.setCustomValidity("");
 
     setNewCommentText(event?.target.value);
   }
 
-  function deleteComment(commentToDelete: any) {
+  function handleNewCommentInvalid(event: InvalidEvent<HTMLTextAreaElement>) {
+    event.target.setCustomValidity("Esse campo eh obrigatório");
+  }
+
+  function deleteComment(commentToDelete: string) {
     const commentsWithoutDeletedOne = comments.filter((comment) => {
       return comment !== commentToDelete;
     });
@@ -62,7 +62,7 @@ export function Post(props: PostProps) {
     <article className="bg-gray-800 rounded-lg p-5 md:p-10">
       <header className="sm:flex items-center justify-between">
         <div className="flex items-center gap-4 mb-1 sm:mb-0">
-          <Avatar githubUser={props.authorAvatar} size={16} hasOutline />
+          <Avatar githubUser={props.authorAvatar} hasOutline />
 
           <div className="flex flex-col">
             <strong className="text-gray-100 leading-6">
@@ -121,7 +121,7 @@ export function Post(props: PostProps) {
           }}
           value={newCommentText}
           required
-          onInvalid={() => handleNewcommentInvalid(event)}
+          onInvalid={() => handleNewCommentInvalid}
           className="w-full bg-gray-900 border-none resize-none h-24 p-4 rounded-lg text-gray-100 leading-6 mt-4 focus:outline-none focus:outline focus:outline-2 focus:outline-green-500"
         />
 

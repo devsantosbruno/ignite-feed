@@ -11,7 +11,7 @@ export function Sidebar() {
       />
 
       <div className="flex flex-col items-center -mt-8">
-        <Avatar githubUser="devsantosbruno" size={20} hasOutline />
+        <Avatar githubUser="devsantosbruno" hasOutline />
         <strong className="mt-4 text-gray-100 leading-6">Bruno Santos</strong>
         <span className="text-sm text-gray-400 leading-6">Web Developer</span>
       </div>

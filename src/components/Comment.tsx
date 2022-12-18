@@ -2,7 +2,12 @@ import { ThumbsUp, Trash } from "phosphor-react";
 import { useState } from "react";
 import { Avatar } from "./Avatar";
 
-export function Comment(props: any) {
+interface CommentProps {
+  content: string;
+  onDeleteComment: (commentToDelete: string) => void;
+}
+
+export function Comment(props: CommentProps) {
   const [likeCount, setLikeCount] = useState(0);
 
   function handleDeleteComment() {
@@ -15,7 +20,7 @@ export function Comment(props: any) {
 
   return (
     <div className="mt-6 flex gap-4">
-      <Avatar githubUser="devsantosbruno" size={16} />
+      <Avatar githubUser="devsantosbruno" />
 
       <div className="w-full">
         <div className="bg-gray-700 rounded-lg p-4">
