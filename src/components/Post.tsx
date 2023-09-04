@@ -9,11 +9,11 @@ interface PostProps {
   authorAvatar: string;
   authorName: string;
   authorRole: string;
-  content: LineProps[];
+  content: any;
 }
 
 interface LineProps {
-  type?: "paragraph" | "link";
+  type?: "paragraph" | "link" | undefined;
   content?: string;
 }
 
